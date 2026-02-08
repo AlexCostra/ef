@@ -6,7 +6,7 @@
 ## Folder Specification
 
 - **ddi_main.py:** Please excuate this file to run our DDI model.
-- **ddi_predictor5.py:** It includes our main architecture code.
+- **main_model_modify_DDI_medication_synergistic_cross_attentionnomodifyloss_patient_with_substructure_GAT.py:** It includes our main architecture code.
 - **Dataset** This folder includes **deep_drug_dict.json** containing all dictionary lists of drugs, **deep_train.json, deep_valid.json, and deep_test.json,** including annotation and unannotated relationship information between pair drugs.
 - **Utils:**  This folder includes **ddi_get_mol_graphs.py** responsible for transforming drug SMOLES sequence data into drug moleculers and **ddi_dataset_wo_type.py** splitting datasets into train, validated and test datasets for DDI.
 - **Utils:**  This folder includes **ddi_layers.py** containing import representation learning blocks and **ddi_train.py** optimizing framework via chi-square.
