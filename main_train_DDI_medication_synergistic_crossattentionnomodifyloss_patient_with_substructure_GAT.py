@@ -11,6 +11,11 @@ import os
 import pdb
 import torch
 import time
+from scipy.stats import chi2
+feature_dimension=64
+medication_num=131
+quatile=0.95
+chi_square_value= chi2.ppf(quatile, (medication_num+feature_dimension+1)/2)
 # from main_models import main_model, MolecularGraphNeuralNetwork_record
 from main_model_modify_DDI_medication_synergistic_cross_attentionnomodifyloss_patient_with_substructure_GAT import main_model, MolecularGraphNeuralNetwork_record
 from main_baseline import (
@@ -413,11 +418,14 @@ def main():
                 F_loss = alpha * (1 - pt) ** gamma * BCE_loss
                 loss_bce = torch.mean(F_loss) * 10
             loss_multi = F.multilabel_margin_loss(F.sigmoid(result), cur_med_ml_target)
-            predicted_labels = (synergistic_features <= 200).float()
+            #print('大小',ddi_features)
+            
+            predicted_labels = (synergistic_features <= chi_square_value).float()#200
             loss1_synergistic = torch.mean((predicted_labels != y_true_synergistic).float())
             #print(ddi_features)
             #print('s1',synergistic_features)
-            predicted_label1 = (ddi_features > 200).float()
+
+            predicted_label1 = (ddi_features > chi_square_value).float()#200
             loss1_ddi = torch.mean((predicted_label1 != y_true_ddi).float())
             # NOTE: value range of loss_ddi
             #loss = 0.95 * loss_bce + 0.05 * loss_multi  # + loss_ddi#y原始的
